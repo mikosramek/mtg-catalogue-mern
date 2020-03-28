@@ -7,25 +7,55 @@ const AddCard = props => {
 
   const [cardName, setCardName] = React.useState('');
 
+  const handleError = (error) => {
+    if (error.response) {
+      console.log(error.response.data.details);
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log(error.message);
+    }
+  }
+
+  const orderColorArray = (arr) => {
+    let identity = '';
+    if(arr.includes('W')) { identity += 'W' }
+    if(arr.includes('U')) { identity += 'U' }
+    if(arr.includes('B')) { identity += 'B' }
+    if(arr.includes('R')) { identity += 'R' }
+    if(arr.includes('G')) { identity += 'G' }
+    return identity;
+  }
+
   const searchForCard = (e) => {
     e.preventDefault();
-    console.log(cardName);
-    addCard({name:"john",
-      image_url:"heeeee",
-      color_identity:"WUB",
-      cmc:0,
-      type:"small child",
+    axios({
+      method: 'GET',
+      url: `https://api.scryfall.com/cards/named?fuzzy=${cardName}`,
+      dataResponse: 'json',
+    }).then(pruneData).catch(handleError);
+  }
+
+  const pruneData = (response) => {
+    const card = response.data;
+    const newCard = {
+      name:card.name,
+      image_url:card.image_uris.normal,
+      color_identity:orderColorArray(card.color_identity),
+      cmc:card.cmc,
+      type:card.type_line,
       owned:1,
       used:1,
-      oracle:"he is a dumbass"});
+      oracle:card.oracle_text
+    }
+    addCard(newCard);
   }
   
   const addCard = cardData => {
-    console.log(cardData);
-    axios.put('http://localhost:3001/_4364dxx/cards/add', cardData)
-      .then( (result) => {
-        console.log(result);
-      }).catch( (error) => {
+    axios.put(`${URL_BASE}/_4364dxx/cards/add`, cardData)
+      .then(() => {
+        setCardName('');
+      }).catch((error) => {
         console.log(error);
       });
   }

@@ -1,0 +1,23 @@
+
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  & .__card {
+    width: calc((100% / 4) - 10px);
+    margin: 5px;
+  }
+  & .__card.loader {
+    background-color: grey;
+    animation: loading 1s infinite linear;
+  }
+}
+
+
+@keyframes loading {
+  0%, 100% {
+    opacity: 40%;
+  }
+  50% {
+    opacity: 20%;
+  }
+}

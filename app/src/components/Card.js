@@ -1,10 +1,11 @@
 import React from 'react';
 
 const Card = props => {
-  const { name } = props.card;
+  const { image_url } = props.card;
   return(
-    <li>
-      <h2>{name}</h2>
+    <li className="__card">
+      <img src={image_url} alt="" />
+
     </li>
   )
 }

@@ -35,11 +35,11 @@ controller.getCards = (name, type, color_identity, cmc, available, oracle, limit
     let connector = ' WHERE ('
 
     if(name) {
-      query += connector + `name ${name.slice(0,1) === 'e' ? '=' : 'LIKE'} "${name.slice(1, name.length)}"`;
+      query += connector + `name ${name.slice(0,1) === 'e' ? `= "${name.slice(1, name.length)}"` : `LIKE "%${name.slice(1, name.length)}%"`} `;
       connector = ' AND ';
     }
     if(type) {
-      query += connector + `type ${type.slice(0,1) === 'e' ? '=' : 'LIKE'} "${type.slice(1, type.length)}"`;
+      query += connector + `type ${type.slice(0,1) === 'e' ? `= "${type.slice(1, type.length)}"` : `LIKE "%${type.slice(1, type.length)}%"`}`;
       connector = ' AND ';
     }
     if(color_identity) {
