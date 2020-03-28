@@ -2,12 +2,15 @@
 
 const router = require('express').Router();
 
+const keys = require('./routes/keys');
+const cards = require('./routes/cards');
 
-
+router.use('/', keys);
+router.use('/:api_key/cards', cards);
 
 //Catch for if a route doesn't exist
 router.use('/', (req, res, next) => {
-  return res.status(404).send({ error: `Endpoint doesn't exist.`, message: `please check /api-docs to learn how to use this api.` });
+  return res.status(404).send({ error: `Endpoint doesn't exist.` });
 });
 
 
