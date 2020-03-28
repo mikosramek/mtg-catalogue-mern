@@ -30,9 +30,9 @@ controller.removeCard = (id) => {
 }
 controller.getCards = (name, type, color_identity, cmc, available, oracle, limit, offset) => {
   return new Promise((res, rej) => {
-    let query = `SELECT * FROM cards WHERE (`;
+    let query = `SELECT * FROM cards`;
 
-    let connector = ''
+    let connector = ' WHERE ('
 
     if(name) {
       query += connector + `name ${name.slice(0,1) === 'e' ? '=' : 'LIKE'} "${name.slice(1, name.length)}"`;
@@ -56,9 +56,12 @@ controller.getCards = (name, type, color_identity, cmc, available, oracle, limit
     }
     if(oracle) {
       query += connector + `oracle LIKE "${oracle}"`;
+      connector = ' AND ';
     }
 
-    query += `) LIMIT ${limit ? limit : 24} OFFSET ${offset ? offset * limit : 0}`;
+    if(connector !== ' WHERE ('){ query += ') ' }
+
+    query += ` LIMIT ${limit ? limit : 24} OFFSET ${offset ? offset * limit : 0}`;
 
     console.log(query);
     

@@ -8,13 +8,16 @@ router.put('/add', (req, res) => {
   if(!cardData) return res.status(400).send({ error:'Missing card data.' });
 
   const { name, image_url, color_identity, cmc, type, owned, used, oracle } = cardData;
-  if(!name || !image_url || !color_identity || !cmc || !type || !owned || !used || !oracle) return rej({ error:'Missing card data.' });
+
+  if(name === undefined || image_url === undefined || color_identity === undefined || cmc === undefined || type === undefined || owned === undefined || used === undefined || oracle === undefined) return res.status(400).send({ error:'Missing card data.' });
 
   cardController.addCard(name, image_url, color_identity, cmc, type, owned, used, oracle)
     .then(() => {
+      console.log('it worked')
       res.status(200).send({ m:'card added' })
     }).catch(e => {
-      res.status(400).send({ m:'something went wrong', error:e });
+      console.log('it failed')
+      res.status(500).send({ m:'something went wrong', error:e });
     });
 });
 
