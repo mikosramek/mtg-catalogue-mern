@@ -2,8 +2,8 @@ import React from 'react';
 
 import './styles/style.scss';
 
-import SearchBar from './components/SearchBar';
-import AddCard from './components/AddCard';
+import Header from './components/Header';
+
 import CardList from './components/CardList';
 
 const App = props => {
@@ -13,16 +13,9 @@ const App = props => {
 
   return(
     <>
-      <header>
-        <div className="wrapper">
-          <h1>Miko's Card Catalogue</h1>
-          <SearchBar setCards={setCards} setLoading={setLoading} />
-          <AddCard />
-        </div>
-      </header>
+      <Header setCards={setCards} setLoading={setLoading} />
       <main>
         <div className="wrapper">
-          <h2>Current Cards:</h2>
           <CardList cards={cards} loading={loading} />
         </div>
       </main>
